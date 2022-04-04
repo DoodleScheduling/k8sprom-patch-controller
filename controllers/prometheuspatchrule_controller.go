@@ -249,11 +249,3 @@ func (r *PrometheusPatchRuleReconciler) patchStatus(ctx context.Context, rule *v
 
 	return r.Client.Status().Patch(ctx, rule, client.MergeFrom(latest))
 }
-
-// objectKey returns client.ObjectKey for the object.
-func objectKey(object metav1.Object) client.ObjectKey {
-	return client.ObjectKey{
-		Namespace: object.GetNamespace(),
-		Name:      object.GetName(),
-	}
-}

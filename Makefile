@@ -60,18 +60,28 @@ vet: ## Run go vet against code.
 	go vet ./...
 
 .PHONY: test
-test: manifests generate fmt vet tidy envtest ## Run tests.
+test: manifests generate fmt vet tidy lint envtest ## Run tests.
 	KUBEBUILDER_ASSETS="$(shell $(ENVTEST) use $(ENVTEST_K8S_VERSION) -p path)" go test ./... -coverprofile cover.out -race
 
 ##@ Build
 
 .PHONY: build
-build: generate fmt vet tidy ## Build manager binary.
+build: generate fmt vet tidy lint ## Build manager binary.
 	go build -o bin/manager main.go
 
 .PHONY: run
-run: manifests generate fmt vet tidy ## Run a controller from your host.
+run: manifests generate fmt vet tidy lint ## Run a controller from your host.
 	go run ./main.go
+
+# Find or download golangci-lint
+GOLANGCI_LINT = $(shell pwd)/bin/golangci-lint
+.PHONY: golangci-lint
+golangci-lint:
+	$(call go-get-tool,$(GOLANGCI_LINT),github.com/golangci/golangci-lint/cmd/golangci-lint@v1.45.2)
+
+.PHONY: lint
+lint: golangci-lint ## Run golangci-lint
+	$(GOLANGCI_LINT) run .
 
 # Find or download gen-crd-api-reference-docs
 GEN_CRD_API_REFERENCE_DOCS = $(shell pwd)/bin/gen-crd-api-reference-docs
