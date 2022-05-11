@@ -6,7 +6,7 @@
 [![license](https://img.shields.io/github/license/DoodleScheduling/k8sprom-patch-controller.svg)](https://github.com/DoodleScheduling/k8sprom-patch-controller/blob/master/LICENSE)
 [![release](https://img.shields.io/github/release/DoodleScheduling/k8sprom-patch-controller/all.svg)](https://github.com/DoodleScheduling/k8sprom-patch-controller/releases)
 
-Apply patches to selected kubernetes resources based on prometheus queries.
+Apply patches to kubernetes resources based on prometheus queries.
 
 ## Example
 
@@ -69,7 +69,7 @@ The PrometheusPatchRule may be suspended setting spec.suspend to `true`. A suspe
 
 ### Remove patches
 By design patches are **not** removed if the defined expression evaluates to `false` and if the patches have been added before.
-The way to achieve this is to crate another PrometheusPatchRule which expression does the opposite as well as opposite patches.
+The way to achieve this is to create another PrometheusPatchRule which expression does the opposite as well as reverse patches.
 
 ## Installation
 
